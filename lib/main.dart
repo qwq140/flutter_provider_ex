@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/change_notifier_provider/model/dog.dart';
-import 'package:flutter_provider_ex/change_notifier_provider/view/home_page.dart';
+import 'package:flutter_provider_ex/provider_extension_method/model/dog.dart';
+import 'package:flutter_provider_ex/provider_extension_method/view/home_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
