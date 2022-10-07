@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/change_notifier/model/dog.dart';
-import 'package:flutter_provider_ex/change_notifier/view/home_page.dart';
+import 'package:flutter_provider_ex/change_notifier_provider/model/dog.dart';
+import 'package:flutter_provider_ex/change_notifier_provider/view/home_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -12,11 +12,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider<Dog>(
+      create: (context) => Dog(name: 'dog2', breed: 'breed2'),
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }
