@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/non_provider/home_page.dart';
+import 'package:flutter_provider_ex/provider/model/dog.dart';
+import 'package:flutter_provider_ex/provider/view/home_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,14 +10,16 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Provider<Dog>(
+      create: (context) => Dog(name: 'Sun', breed: 'Bulldog'),
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }
