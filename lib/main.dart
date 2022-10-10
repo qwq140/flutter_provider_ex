@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/future_provider/model/babies.dart';
-import 'package:flutter_provider_ex/future_provider/model/dog.dart';
-import 'package:flutter_provider_ex/future_provider/view/home_page.dart';
+import 'package:flutter_provider_ex/stream_provider/model/babies.dart';
+import 'package:flutter_provider_ex/stream_provider/model/dog.dart';
+import 'package:flutter_provider_ex/stream_provider/view/home_page.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,18 +14,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dog = Dog(name: 'dog', breed: 'breed');
+    final dog = Dog(name: 'dog', breed: 'breed', age: 5);
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Dog>(
           create: (context) => dog,
         ),
-        FutureProvider<int>(initialData: 0, create: (context){
-          final int dogAge = dog.age;
-          final babies = Babies(age: dogAge);
-          return babies.getBabies();
-        }),
+        FutureProvider<int>(
+            initialData: 0,
+            create: (context) {
+              final int dogAge = dog.age;
+              final babies = Babies(age: dogAge);
+              return babies.getBabies();
+            }),
+        StreamProvider<String>(
+          initialData: 'Bark 0 times',
+          create: (context) {
+            final int dogAge = dog.age;
+            final babies = Babies(age: dogAge * 2);
+            return babies.bark();
+          },
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
