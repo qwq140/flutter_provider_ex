@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/provider_error/app.dart';
 import 'package:flutter_provider_ex/proxy_provider/screen/home_page.dart';
 import 'package:flutter_provider_ex/selector/model/dog.dart';
 
@@ -6,7 +7,7 @@ import 'package:flutter_provider_ex/selector/model/dog.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderErrorApp());
 }
 
 class MyApp extends StatelessWidget {
