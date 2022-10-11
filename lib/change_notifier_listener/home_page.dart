@@ -14,6 +14,36 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? searchTerm;
+  late final AppProvider appProv;
+
+  @override
+  void initState() {
+    super.initState();
+    appProv = context.read<AppProvider>();
+    appProv.addListener(appListener);
+  }
+
+  void appListener() {
+    if(appProv.state == AppState.success){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return SuccessPage();
+          },
+        ),
+      );
+    } else if(appProv.state == AppState.error){
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Something went wrong'),
+          );
+        },
+      );
+    }
+  }
 
   void submit() async {
     setState(() {
@@ -26,7 +56,7 @@ class _HomePageState extends State<HomePage> {
 
     form.save();
 
-    context.read<AppProvider>().getResult(context, searchTerm!);
+    context.read<AppProvider>().getResult(searchTerm!);
 
     // Navigator.push(
     //   context,
@@ -45,6 +75,12 @@ class _HomePageState extends State<HomePage> {
     //     );
     //   },
     // );
+  }
+
+  @override
+  void dispose() {
+    appProv.removeListener(appListener);
+    super.dispose();
   }
 
   @override
