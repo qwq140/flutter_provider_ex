@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/more_provider_not_found_exception/home_page.dart';
+import 'package:flutter_provider_ex/proxy_provider/screen/home_page.dart';
 import 'package:flutter_provider_ex/selector/model/dog.dart';
 
 

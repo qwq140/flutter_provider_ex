@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/proxy_provider/screen/chgnotiprov_chgnotiproxyprov.dart';
+import 'package:flutter_provider_ex/proxy_provider/screen/proxyprov_create_update.dart';
+import 'package:flutter_provider_ex/proxy_provider/screen/proxyprov_update.dart';
 import 'package:flutter_provider_ex/proxy_provider/screen/why_proxy_prov.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,6 +22,56 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text(
                   'Why\nProxyProvider',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ProxyProvUpdate(),));
+                },
+                child: const Text(
+                  'ProxyProvider Update',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ProxyProvCreateUpdate(),));
+                },
+                child: const Text(
+                  'ProxyProvider Create Update',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ProxyProvCreateUpdate(),));
+                },
+                child: const Text(
+                  'ProxyProvider ProxyProvider',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ChgNotiProvChgNotiProxyProv(),));
+                },
+                child: const Text(
+                  'ChgNotiProv ChgNotiProxyProv',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ChgNotiProvChgNotiProxyProv(),));
+                },
+                child: const Text(
+                  'ChgNotiProv ProxyProv',
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),

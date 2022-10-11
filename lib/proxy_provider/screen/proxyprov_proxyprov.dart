@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Translations {
   final int _value;
@@ -8,14 +9,14 @@ class Translations {
   String get title => 'You clicked $_value times';
 }
 
-class WhyProxyProv extends StatefulWidget {
-  const WhyProxyProv({Key? key}) : super(key: key);
+class ProxyProvProxyProv extends StatefulWidget {
+  const ProxyProvProxyProv({Key? key}) : super(key: key);
 
   @override
-  State<WhyProxyProv> createState() => _WhyProxyProvState();
+  State<ProxyProvProxyProv> createState() => _ProxyProvProxyProvState();
 }
 
-class _WhyProxyProvState extends State<WhyProxyProv> {
+class _ProxyProvProxyProvState extends State<ProxyProvProxyProv> {
   int counter = 0;
 
   void increment() {
@@ -29,18 +30,24 @@ class _WhyProxyProvState extends State<WhyProxyProv> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Why ProxyProvider'),
+        title: Text('ProxyProvider ProxyProvider'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShowTranslations(),
-            SizedBox(
-              height: 20,
-            ),
-            IncreaseButton(increment: increment),
+        child: MultiProvider(
+          providers: [
+            ProxyProvider0<int>(update: (_, __) => counter),
+            ProxyProvider<int, Translations>(update: (_, value, __) => Translations(value))
           ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ShowTranslations(),
+              SizedBox(
+                height: 20,
+              ),
+              IncreaseButton(increment: increment),
+            ],
+          ),
         ),
       ),
     );
@@ -52,9 +59,12 @@ class ShowTranslations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('You clicked 0 times', style: TextStyle(fontSize: 28));
+    final title = context.watch<Translations>().title;
+
+    return Text(title, style: TextStyle(fontSize: 28));
   }
 }
+
 
 class IncreaseButton extends StatelessWidget {
   final VoidCallback increment;

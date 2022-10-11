@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Translations {
-  final int _value;
+  late int _value;
 
-  Translations(this._value);
+  void update(int newValue){
+    _value = newValue;
+  }
 
   String get title => 'You clicked $_value times';
 }
 
-class WhyProxyProv extends StatefulWidget {
-  const WhyProxyProv({Key? key}) : super(key: key);
+class ProxyProvCreateUpdate extends StatefulWidget {
+  const ProxyProvCreateUpdate({Key? key}) : super(key: key);
 
   @override
-  State<WhyProxyProv> createState() => _WhyProxyProvState();
+  State<ProxyProvCreateUpdate> createState() => _ProxyProvCreateUpdateState();
 }
 
-class _WhyProxyProvState extends State<WhyProxyProv> {
+class _ProxyProvCreateUpdateState extends State<ProxyProvCreateUpdate> {
   int counter = 0;
 
   void increment() {
@@ -29,18 +32,25 @@ class _WhyProxyProvState extends State<WhyProxyProv> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Why ProxyProvider'),
+        title: Text('ProxyProvider Create Update'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShowTranslations(),
-            SizedBox(
-              height: 20,
-            ),
-            IncreaseButton(increment: increment),
-          ],
+        child: ProxyProvider0<Translations>(
+          create: (_) => Translations(),
+          update: (_, Translations? translations) {
+            translations!.update(counter);
+            return translations;
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ShowTranslations(),
+              SizedBox(
+                height: 20,
+              ),
+              IncreaseButton(increment: increment),
+            ],
+          ),
         ),
       ),
     );
@@ -52,7 +62,9 @@ class ShowTranslations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('You clicked 0 times', style: TextStyle(fontSize: 28));
+    final title = context.watch<Translations>().title;
+
+    return Text(title, style: TextStyle(fontSize: 28));
   }
 }
 

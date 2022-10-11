@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class Counter with ChangeNotifier {
+  int counter = 0;
+
+  void increment() {
+    counter++;
+    notifyListeners();
+  }
+}
 
 class Translations {
   final int _value;
@@ -8,22 +18,14 @@ class Translations {
   String get title => 'You clicked $_value times';
 }
 
-class WhyProxyProv extends StatefulWidget {
-  const WhyProxyProv({Key? key}) : super(key: key);
+class ChgNotiProvProxyProv extends StatefulWidget {
+  const ChgNotiProvProxyProv({Key? key}) : super(key: key);
 
   @override
-  State<WhyProxyProv> createState() => _WhyProxyProvState();
+  State<ChgNotiProvProxyProv> createState() => _ChgNotiProvProxyProvState();
 }
 
-class _WhyProxyProvState extends State<WhyProxyProv> {
-  int counter = 0;
-
-  void increment() {
-    setState(() {
-      counter++;
-      print('counter : $counter');
-    });
-  }
+class _ChgNotiProvProxyProvState extends State<ChgNotiProvProxyProv> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +34,21 @@ class _WhyProxyProvState extends State<WhyProxyProv> {
         title: Text('Why ProxyProvider'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShowTranslations(),
-            SizedBox(
-              height: 20,
-            ),
-            IncreaseButton(increment: increment),
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<Counter>(create: (_) => Counter()),
+            ProxyProvider<Counter, Translations>(update: (_, counter, __) => Translations(counter.counter),)
           ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ShowTranslations(),
+              SizedBox(
+                height: 20,
+              ),
+              IncreaseButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -52,19 +60,23 @@ class ShowTranslations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('You clicked 0 times', style: TextStyle(fontSize: 28));
+    final title = context.watch<Translations>().title;
+
+    return Text(title, style: TextStyle(fontSize: 28));
   }
 }
 
 class IncreaseButton extends StatelessWidget {
-  final VoidCallback increment;
-
-  const IncreaseButton({Key? key, required this.increment}) : super(key: key);
+  const IncreaseButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: increment,
+      onPressed: () {
+        context.read<Counter>().increment();
+      },
       child: Text(
         'INCREASE',
         style: TextStyle(fontSize: 20),
@@ -72,3 +84,4 @@ class IncreaseButton extends StatelessWidget {
     );
   }
 }
+

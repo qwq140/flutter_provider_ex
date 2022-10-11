@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Translations {
   final int _value;
@@ -32,15 +33,18 @@ class _WhyProxyProvState extends State<WhyProxyProv> {
         title: Text('Why ProxyProvider'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShowTranslations(),
-            SizedBox(
-              height: 20,
-            ),
-            IncreaseButton(increment: increment),
-          ],
+        child: Provider<Translations>(
+          create: (_) => Translations(counter),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ShowTranslations(),
+              SizedBox(
+                height: 20,
+              ),
+              IncreaseButton(increment: increment),
+            ],
+          ),
         ),
       ),
     );
@@ -52,7 +56,8 @@ class ShowTranslations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('You clicked 0 times', style: TextStyle(fontSize: 28));
+    final title = Provider.of<Translations>(context).title;
+    return Text(title, style: TextStyle(fontSize: 28));
   }
 }
 
