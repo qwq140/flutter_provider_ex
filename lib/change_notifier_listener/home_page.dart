@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
     form.save();
 
-    context.read<AppProvider>().getResult(searchTerm!);
+    context.read<AppProvider>().getResult(context, searchTerm!);
 
     // Navigator.push(
     //   context,
@@ -51,29 +51,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final appState = context.watch<AppProvider>().state;
 
-    if(appState == AppState.success){
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return SuccessPage();
-            },
-          ),
-        );
-      });
-    } else if(appState == AppState.error){
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text('Something went wrong'),
-            );
-          },
-        );
-      });
-    }
+    // if(appState == AppState.success){
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) {
+    //           return SuccessPage();
+    //         },
+    //       ),
+    //     );
+    //   });
+    // } else if(appState == AppState.error){
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           content: Text('Something went wrong'),
+    //         );
+    //       },
+    //     );
+    //   });
+    // }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),

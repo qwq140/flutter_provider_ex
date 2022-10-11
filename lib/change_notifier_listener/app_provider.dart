@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_ex/change_notifier_listener/success_page.dart';
 
 enum AppState{
   initial,
@@ -12,7 +13,8 @@ class AppProvider with ChangeNotifier {
 
   AppState get state => _state;
 
-  Future<void> getResult(String searchTerm) async {
+  // AppProvider가 UI와 관련된 코드가 추가된다.(UI와 비즈니스 로직이 분리가 안된다)
+  Future<void> getResult(BuildContext context, String searchTerm) async {
     _state = AppState.loading;
     notifyListeners();
 
@@ -24,9 +26,25 @@ class AppProvider with ChangeNotifier {
       }
       _state = AppState.success;
       notifyListeners();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return SuccessPage();
+          },
+        ),
+      );
     } catch(e) {
       _state = AppState.error;
       notifyListeners();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Somthing went wrong'),
+          );
+        },
+      );
     }
   }
 }
