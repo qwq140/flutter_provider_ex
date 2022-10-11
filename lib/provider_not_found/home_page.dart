@@ -13,28 +13,32 @@ class HomePage extends StatelessWidget {
       ),
       body: ChangeNotifierProvider<Foo>(
         create: (context) => Foo(),
-        builder: (context, child) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${context.watch<Foo>().value}',
-                style: TextStyle(fontSize: 40),
+        child: Consumer<Foo>(
+          builder: (BuildContext context, Foo foo, _) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${foo.value}',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      foo.changeValue();
+                    },
+                    child: Text(
+                      'Change Value',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.read<Foo>().changeValue();
-                },
-                child: Text(
-                  'Change Value',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
