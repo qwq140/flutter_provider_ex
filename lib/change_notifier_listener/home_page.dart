@@ -22,66 +22,100 @@ class _HomePageState extends State<HomePage> {
 
     final form = formKey.currentState;
 
-    if(form == null || !form.validate()) return;
+    if (form == null || !form.validate()) return;
 
     form.save();
 
-    try {
-      await context.read<AppProvider>().getResult(searchTerm!);
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return SuccessPage();
-      }));
-    } catch (e){
-      showDialog(context: context, builder: (context){
-        return AlertDialog(
-          content: Text('Somthing went wrong'),
-        );
-      });
-    }
+    context.read<AppProvider>().getResult(searchTerm!);
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return SuccessPage();
+    //     },
+    //   ),
+    // );
+    //
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return AlertDialog(
+    //       content: Text('Somthing went wrong'),
+    //     );
+    //   },
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppProvider>().state;
 
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Form(
-            key: formKey,
-            autovalidateMode: autovalidateMode,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                TextFormField(
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text('search'),
-                    prefixIcon: Icon(Icons.search),
+    if(appState == AppState.success){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return SuccessPage();
+            },
+          ),
+        );
+      });
+    } else if(appState == AppState.error){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text('Something went wrong'),
+            );
+          },
+        );
+      });
+    }
+
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Form(
+              key: formKey,
+              autovalidateMode: autovalidateMode,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  TextFormField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      label: Text('search'),
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Search term required';
+                      }
+                      return null;
+                    },
+                    onSaved: (String? value) {
+                      searchTerm = value;
+                    },
                   ),
-                  validator: (String? value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Search term required';
-                    }
-                    return null;
-                  },
-                  onSaved: (String? value) {
-                    searchTerm = value;
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: appState == AppState.loading ? null : submit,
-                  child: Text(
-                    appState == AppState.loading ? 'Loading...' : 'Get Result',
-                    style: TextStyle(fontSize: 24),
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-              ],
+                  ElevatedButton(
+                    onPressed: appState == AppState.loading ? null : submit,
+                    child: Text(
+                      appState == AppState.loading ? 'Loading...' : 'Get Result',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -22,13 +22,11 @@ class AppProvider with ChangeNotifier {
       if(searchTerm == 'fail'){
         throw 'Something went wrong';
       }
-
       _state = AppState.success;
       notifyListeners();
     } catch(e) {
       _state = AppState.error;
       notifyListeners();
-      rethrow;
     }
   }
 }
