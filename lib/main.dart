@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_ex/consumer/model/dog.dart';
-import 'package:flutter_provider_ex/provider_not_found/home_page.dart';
+import 'package:flutter_provider_ex/selector/model/dog.dart';
+import 'package:flutter_provider_ex/selector/view/home_page.dart';
+
 
 import 'package:provider/provider.dart';
 
